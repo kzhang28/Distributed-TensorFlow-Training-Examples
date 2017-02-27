@@ -1,2 +1,8 @@
-1, distributed tensorflow example: single layer neural network for mnist classification
-2: Tensorflow version: 0.11.0rc0
+1, Distributed tensorflow example: single layer neural network for mnist classification
+2, Tensorflow version: 0.11.0rc0
+3, Before run, please change the setting in ps.sh worker0.sh worker1.sh
+4, Run ps.sh first, then worker0.sh and worker1.sh
+5 Find more info about distributed tensorflow:
+	https://www.tensorflow.org/deploy/distributed
+
+	
