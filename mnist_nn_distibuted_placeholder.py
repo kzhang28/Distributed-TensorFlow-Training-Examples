@@ -1,13 +1,12 @@
-"""This script is the distributed version of a MODIFIED mnist_softmax.py example provided by tensorflow
+"""This script is the distributed version of mnist_softmax.py example provided by tensorflow
     example. The origianl non-distributed version can be found from the link:
     https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/tutorials/mnist/mnist_softmax.py
     This script is used to test the benchmark performance of distributed tensorflow with placeholder.
-    This script uses a +++++Single Layer Neural Network++++ to training a mnist classifier,
-    rather than a softmax classifier
 """
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+import math
 from tensorflow.examples.tutorials.mnist import input_data
 import tensorflow as tf
 #FLAGS = None
@@ -34,8 +33,10 @@ tf.app.flags.DEFINE_integer("replicas_to_aggregate",None,
                             "num_workers)")
 tf.app.flags.DEFINE_integer("num_workers",2,
                             "Total number of workers (must be >= 1)")
+tf.app.flags.DEFINE_integer("hidden_units",1024,"the num of units in the hidden layer")
 
 FLAGS = tf.app.flags.FLAGS
+IMAGE_PIXELS = 28
 def main(_):
   ps_host = FLAGS.ps_hosts.split(",")
   worker_hosts = FLAGS.worker_hosts.split(",")
@@ -55,15 +56,21 @@ def main(_):
       with tf.device(tf.train.replica_device_setter(
             worker_device="/job:worker/task:%d" %FLAGS.task_index,
             cluster=cluster)):
-
-          W = tf.Variable(tf.zeros([784, 10]))
-          b = tf.Variable(tf.zeros([10]))
-
-          x = tf.placeholder(tf.float32, [None, 784])
-          label = tf.placeholder(tf.float32, [None, 10])
-
-          logits = tf.matmul(x, W) + b
-          cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=label, logits=logits))
+          # Variable of the hidden layer
+          hid_w = tf.Variable(tf.truncated_normal([IMAGE_PIXELS * IMAGE_PIXELS, FLAGS.hidden_units],
+                              stddev=1.0 / IMAGE_PIXELS), name="hid_w")
+          hid_b = tf.Variable(tf.zeros([FLAGS.hidden_units]), name="hid_b")
+          # Variables of the softmax layer
+          sm_w = tf.Variable(
+              tf.truncated_normal([FLAGS.hidden_units, 10],
+                                  stddev=1.0 / math.sqrt(FLAGS.hidden_units)),name="sm_w")
+          sm_b = tf.Variable(tf.zeros([10]), name="sm_b")
+          x = tf.placeholder(tf.float32, [None, IMAGE_PIXELS * IMAGE_PIXELS])
+          y_ = tf.placeholder(tf.float32, [None, 10])
+          hid_lin = tf.nn.xw_plus_b(x, hid_w, hid_b)
+          hid = tf.nn.relu(hid_lin)
+          y = tf.nn.softmax(tf.nn.xw_plus_b(hid, sm_w, sm_b))
+          loss = -tf.reduce_sum(y_ * tf.log(tf.clip_by_value(y, 1e-10, 1.0)))
 
           global_step = tf.Variable(0)
           lr = FLAGS.learning_rate
@@ -75,7 +82,7 @@ def main(_):
                                                    replica_id=FLAGS.task_index,
                                                    use_locking=True,
                                                    name="singleLayerNN_mnist")
-          train_step = optimizer.minimize(cross_entropy,global_step=global_step)
+          train_step = optimizer.minimize(loss,global_step=global_step)
           if is_chief and FLAGS.sync_replicas:
               chief_queue_runner = optimizer.get_chief_queue_runner()
           #saver =tf.train.Saver()
@@ -97,12 +104,12 @@ def main(_):
           while not sv.should_stop() and step <FLAGS.total_step:
               #print(step)
               train_batch_xs,train_batch_ys =mnist.train.next_batch(FLAGS.batch_size)
-              train_feed = {x:train_batch_xs, label:train_batch_ys}
+              train_feed = {x:train_batch_xs, y_:train_batch_ys}
               _,step =sess.run([train_step,global_step],feed_dict=train_feed)
               if step % 100==0:
                   test_batch_xs,test_batch_ys=mnist.test.next_batch(FLAGS.batch_size)
-                  test_feed = {x:test_batch_xs,label:test_batch_ys}
-                  cross_entropy_eval=sess.run(cross_entropy,feed_dict=test_feed)
+                  test_feed = {x:test_batch_xs,y_:test_batch_ys}
+                  cross_entropy_eval=sess.run(loss,feed_dict=test_feed)
                   print("Worker:%d global step:%d, cross_entropy:%f" %(FLAGS.task_index,step,cross_entropy_eval))
           sv.stop()
 if __name__ == "__main__":
