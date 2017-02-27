@@ -8,11 +8,8 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-
 from tensorflow.examples.tutorials.mnist import input_data
-
 import tensorflow as tf
-
 #FLAGS = None
 HOME_DIR="/Users/kuozhang/PycharmProjects/TensorflowSpring2017Experiment"
 tf.app.flags.DEFINE_string("ps_hosts", "",
