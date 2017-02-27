@@ -7,4 +7,7 @@ distributed tensorflow example
 #Usage
 1. For each example `xxx.py`,
 you can find the corresponding folder 
-in which there are scripts to run it in distributed mode       
+in which there are scripts to run it in distributed mode
+
+# Version
+Tensorflow version: 0.11.0rc0
