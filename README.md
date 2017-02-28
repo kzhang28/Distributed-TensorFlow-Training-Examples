@@ -1,8 +1,8 @@
 #Project Description
-distributed tensorflow example
+This repository contains applications that can run on distirbuted tensorflow system.
 
 #Content
-1. Single layer neural network example
+1. Single layer neural network for handwriting digit recognition (MNIST dataset)
 
 #Usage
 1. For each example `xxx.py`,
