@@ -10,7 +10,7 @@ import math
 from tensorflow.examples.tutorials.mnist import input_data
 import tensorflow as tf
 #FLAGS = None
-HOME_DIR="/Users/kuozhang/PycharmProjects/TensorflowSpring2017Experiment"
+HOME_DIR="/home/ubuntu/TF_experiment_kuo/tensorflow_example"
 tf.app.flags.DEFINE_string("ps_hosts", "",
                            "Comma-separated list of hostname:port pairs")
 tf.app.flags.DEFINE_string("worker_hosts", "",
