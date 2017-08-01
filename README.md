@@ -7,6 +7,7 @@ This repository contain three examples/models for handwriting digit recognition 
 2. Softmax model:[mnist_softmax_distibuted_placeholder.py](https://github.com/kzhang28/tensorflow_example/blob/master/mnist_softmax_distibuted_placeholder.py)
 3. Two hidden layers neural network: [mnist_2hiddenLayerNN_distributed_ph.py](https://github.com/kzhang28/tensorflow_example/blob/master/mnist_2hiddenLayerNN_distributed_ph.py)
 
+I run the three models for resoure utilization comparison. If you have more interest in distributed machine learning platforms you can see [my paper.](http://www.eden.rutgers.edu/~kz181/ICCCN.pdf)
 # Usage
 1. For each example `xxx.py`,
 you can find the corresponding folder 
