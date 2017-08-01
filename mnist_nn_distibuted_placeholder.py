@@ -1,7 +1,5 @@
-"""This script is the distributed version of mnist_softmax.py example provided by tensorflow
-    example. The origianl non-distributed version can be found from the link:
-    https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/tutorials/mnist/mnist_softmax.py
-    This script is used to test the benchmark performance of distributed tensorflow with placeholder.
+"""
+    This script is an example of training a single layer neural network in a distributed fashion.
 """
 from __future__ import absolute_import
 from __future__ import division
