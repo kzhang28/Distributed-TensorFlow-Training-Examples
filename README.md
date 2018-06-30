@@ -1,5 +1,5 @@
 # Project Description
-Distributed training of machine learning/deep learning models in Tensorflow.  
+Examples for distributed training of machine learning/deep learning models in TensorFlow.  
 
 # Contents
 This repository contain three examples/models for handwriting digit recognition (MNIST dataset)
