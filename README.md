@@ -1,5 +1,5 @@
 # Project Description
-This repository contains data parallel distributed training examples with TensorFlow.  
+Three distributed training examples in Tensorflow.  
 
 # Contents
 This repository contain three examples/models for handwriting digit recognition (MNIST dataset)
