@@ -11,5 +11,9 @@ Please refer to [distributed tensorflow](https://www.tensorflow.org/deploy/distr
 # Note
 - `cifar10_distributed.py` and `cifar10_input.py` should be placed in the same directory when launching each training task.
 - Modify default arugment value and global constant in `cifar10_distributed.py` as needed.
+#  Runtime Environment
+- Tensorflow 1.5.0+
+- Python 3
+- Ubuntu 16
 
 
