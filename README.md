@@ -1,17 +1,23 @@
 # Project Description
-Examples for distributed training of machine learning/deep learning models in TensorFlow.  
+Examples for distributed training of machine learning/deep learning models in TensorFlow. Every model training example can be run on a multi-node cluster. 
 
 # Contents
-This repository contain three examples/models for handwriting digit recognition (MNIST dataset)
+This repository contain a few  examples/models for handwriting digit recognition (MNIST dataset)
 1. Single layer neural network: [mnist_nn_distibuted_placeholder.py](https://github.com/kzhang28/tensorflow_example/blob/master/mnist_nn_distibuted_placeholder.py)
-2. Softmax model:[mnist_softmax_distibuted_placeholder.py](https://github.com/kzhang28/tensorflow_example/blob/master/mnist_softmax_distibuted_placeholder.py)
+2. Softmax model: [mnist_softmax_distibuted_placeholder.py](https://github.com/kzhang28/tensorflow_example/blob/master/mnist_softmax_distibuted_placeholder.py)
 3. Two hidden layers neural network: [mnist_2hiddenLayerNN_distributed_ph.py](https://github.com/kzhang28/tensorflow_example/blob/master/mnist_2hiddenLayerNN_distributed_ph.py)
+4. CNN Alexnet 
 
-Three models were trained in a distributed fashion for resoure utilization comparison purpose. If you have more interest in distributed machine learning platforms you can see [my paper.](http://www.eden.rutgers.edu/~kz181/ICCCN.pdf)
+
 # Usage
-1. For each example/model `xxx.py`,
-you can find the corresponding folder 
-in which there are scripts to launch the distributed training job. Change the python path and HOME path before run it, change the host specification.
+1. For model 1,2,3: you can find a script called `xxx.py` and a corresponding folder 
+in which there are shell scripts to launch the distributed training job. 
+2. For model alexnet (4): please refer to the README in their folder
+# Note:
+- Change some default setting (e.g., python path, HOME path, host name) before running each training job.
+- Make sure you understand the basics of distributed Tensorflow. See the [offical tutorial](https://www.tensorflow.org/deploy/distributed) for more detail.
 
-# Version
-Tensorflow version: 0.11.0rc0
+# Version and Environment
+- Model 1,2,3: Tensorflow version: 0.11.0rc0, Python 3, Ubuntu 16
+- AlexNet (model 4): Tensorflow version 1.5.0, Python 3, Ubuntu 16
+
