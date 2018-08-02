@@ -323,10 +323,13 @@ def train(total_loss, global_step, num_replica_to_aggregate,
         MOVING_AVERAGE_DECAY, global_step)
     with tf.control_dependencies([apply_gradient_op]):
         variables_averages_op = variable_averages.apply(tf.trainable_variables())
-    # make sync hook
-    sync_replica_hook = opt.make_session_run_hook(is_chief)
+    # make sync hook if sync training
+    if is_chief:
+        sync_replica_hook = [opt.make_session_run_hook(is_chief)]
+    else:
+        sync_replica_hook = []
     stop_at_hook = tf.train.StopAtStepHook(num_steps=_num_train_step())
-    hooks = [sync_replica_hook, stop_at_hook]
+    hooks = sync_replica_hook + [stop_at_hook]
     return variables_averages_op, hooks
 
 
@@ -429,7 +432,7 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", type=int, default=128, help="batch size")
     # parser.add_argument("--max_step", type=int, default=1000000, help="max step to run")
     parser.add_argument("--log_device_placement", type=bool, default=False, help="whether to log device placement")
-    parser.add_argument("--log_frequency", type=int, default=10, help="N/A")
+    parser.add_argument("--log_frequency", type=int, default=10, help="the frequency of printing logs to standard out")
     parser.add_argument("--use_fp16", type=bool, default=False, help='Train the model using fp16')
     parser.add_argument("--total_epoch", type=int, default=200, help='Total number of epoch')
 
