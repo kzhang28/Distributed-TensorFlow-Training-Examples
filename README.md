@@ -12,7 +12,7 @@ This repository contains a few examples for distributed (multi-nodes) training o
 # Usage
 1. For model 1,2,3: you can find a script called `xxx.py` and a corresponding folder 
 in which there are shell scripts to launch the distributed training job. 
-2. For model 4: please refer to the corresponding [README](https://github.com/kzhang28/Distributed-TensorFlow-Training-Examples/blob/master/Alexnet/README.md)
+2. For model 4: please refer to the corresponding [README](https://github.com/kzhang28/Distributed-TensorFlow-Training-Examples/blob/master/tensorflow-cnn-example/README.md)
 # Note:
 - Change some default setting (e.g., python path, HOME path, host name) before running each training job.
 - Make sure you understand the basics of distributed Tensorflow. See the [offical tutorial](https://www.tensorflow.org/deploy/distributed) for more detail.
